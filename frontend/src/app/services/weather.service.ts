@@ -11,6 +11,6 @@ private apiUrl = 'http://localhost:8080/api/weather';
 constructor(private http: HttpClient) { }
 
   getWeather(city: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}?city=${city}`);
+    return this.http.get<any>(`${this.apiUrl}?city=${city}`);
   }
 }

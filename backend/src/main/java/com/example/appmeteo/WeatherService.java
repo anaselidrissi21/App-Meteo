@@ -5,12 +5,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class WeatherService {
-    public String getWeather(String city) {
-        String apiKey = "YOUR_API_KEY";
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
+    private final String apiKey = "9d455c2808a25f5c70c0b7b9f6cbda88";
+    private final String apiUrl = "http://api.openweathermap.org/data/2.5/weather";
 
+    public String getWeather(String city) {
+        String url = apiUrl + "?q=" + city + "&appid=" + apiKey + "&units=metric";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
     }
 }
+
+
 
