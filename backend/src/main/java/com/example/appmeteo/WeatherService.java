@@ -5,7 +5,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class WeatherService {
-    private final String apiKey = "9d455c2808a25f5c70c0b7b9f6cbda88";
+    private final String apiKey = "";
     private final String apiUrl = "http://api.openweathermap.org/data/2.5/weather";
 
     public String getWeather(String city) {
