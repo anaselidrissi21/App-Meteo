@@ -1,11 +1,26 @@
-<div>
+<div class="weather-app">
   <h1>Weather App</h1>
-  <input [(ngModel)]="city" placeholder="Enter city">
-  <button (click)="getWeather()">Get Weather</button>
-
-  <div *ngIf="weather">
-    <h2>Weather in {{ weather.name }}</h2>
-    <p>Temperature: {{ weather.main.temp }}°C</p>
-    <p>Condition: {{ weather.weather[0].description }}</p>
+  <div class="input-group">
+    <input [(ngModel)]="city" placeholder="Enter city">
+    <button (click)="getWeather()">Get Weather</button>
+  </div>
+  <div class="weather-info" *ngIf="weather">
+    <h2>{{ weather.name }}</h2>
+    <p>{{ weather.weather[0].description }}</p>
+    <p>{{ weather.main.temp }}°C</p>
+    <p>Feels like: {{ weather.main.feels_like }}°C</p>
+    <p>Min temperature: {{ weather.main.temp_min }}°C</p>
+    <p>Max temperature: {{ weather.main.temp_max }}°C</p>
+    <p>Pressure: {{ weather.main.pressure }} hPa</p>
+    <p>Humidity: {{ weather.main.humidity }}%</p>
+    <p>Visibility: {{ weather.visibility }} meters</p>
+    <p>Wind speed: {{ weather.wind.speed }} m/s</p>
+    <p>Wind direction: {{ weather.wind.deg }}°</p>
+    <p>Cloudiness: {{ weather.clouds.all }}%</p>
+    <p>Sunrise: {{ weather.sys.sunrise | date:'HH:mm:ss' }}</p>
+    <p>Sunset: {{ weather.sys.sunset | date:'HH:mm:ss' }}</p>
   </div>
 </div>
+
+
+
