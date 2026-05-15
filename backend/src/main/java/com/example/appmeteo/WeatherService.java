@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class WeatherService {
     private static final String GEOCODING_API_URL = "https://geocoding-api.open-meteo.com/v1/search";
     private static final String FORECAST_API_URL = "https://api.open-meteo.com/v1/forecast";
+    private static final String CURRENT_WEATHER_FIELDS = "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code";
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -49,8 +50,8 @@ public class WeatherService {
                 .queryParam("format", "json")
                 .toUriString();
 
-        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
-        List<Map<String, Object>> results = response == null ? null : (List<Map<String, Object>>) response.get("results");
+        Map<String, Object> response = getJsonObject(url);
+        List<Map<String, Object>> results = getJsonList(response, "results");
 
         if (results == null || results.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ville introuvable");
@@ -63,17 +64,34 @@ public class WeatherService {
         String url = UriComponentsBuilder.fromHttpUrl(FORECAST_API_URL)
                 .queryParam("latitude", location.get("latitude"))
                 .queryParam("longitude", location.get("longitude"))
-                .queryParam("current", "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code")
+                .queryParam("current", CURRENT_WEATHER_FIELDS)
                 .toUriString();
 
-        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
-        Map<String, Object> currentWeather = response == null ? null : (Map<String, Object>) response.get("current");
+        Map<String, Object> response = getJsonObject(url);
+        Map<String, Object> currentWeather = getJsonObject(response, "current");
 
         if (currentWeather == null) {
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Données météo indisponibles");
         }
 
         return currentWeather;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> getJsonObject(String url) {
+        return restTemplate.getForObject(url, Map.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> getJsonObject(Map<String, Object> data, String key) {
+        Object value = data == null ? null : data.get(key);
+        return value instanceof Map ? (Map<String, Object>) value : null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> getJsonList(Map<String, Object> data, String key) {
+        Object value = data == null ? null : data.get(key);
+        return value instanceof List ? (List<Map<String, Object>>) value : null;
     }
 
     private Number getNumber(Map<String, Object> data, String key) {
@@ -87,38 +105,45 @@ public class WeatherService {
     }
 
     private String describeWeather(int code) {
-        if (code == 0) {
-            return "Ciel dégagé";
+        switch (code) {
+            case 0:
+                return "Ciel dégagé";
+            case 1:
+            case 2:
+            case 3:
+                return "Nuageux";
+            case 45:
+            case 48:
+                return "Brouillard";
+            case 51:
+            case 53:
+            case 55:
+            case 56:
+            case 57:
+            case 61:
+            case 63:
+            case 65:
+            case 66:
+            case 67:
+                return "Pluie";
+            case 71:
+            case 73:
+            case 75:
+            case 77:
+                return "Neige";
+            case 80:
+            case 81:
+            case 82:
+                return "Averses de pluie";
+            case 85:
+            case 86:
+                return "Averses de neige";
+            case 95:
+            case 96:
+            case 99:
+                return "Orage";
+            default:
+                return "Inconnu";
         }
-
-        if (code <= 3) {
-            return "Nuageux";
-        }
-
-        if (code <= 48) {
-            return "Brouillard";
-        }
-
-        if (code <= 67) {
-            return "Pluie";
-        }
-
-        if (code <= 77) {
-            return "Neige";
-        }
-
-        if (code <= 82) {
-            return "Averses de pluie";
-        }
-
-        if (code <= 86) {
-            return "Averses de neige";
-        }
-
-        if (code <= 99) {
-            return "Orage";
-        }
-
-        return "Inconnu";
     }
 }

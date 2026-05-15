@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { WeatherService } from '../services/weather.service';
+import { Weather, WeatherService } from '../services/weather.service';
 
 @Component({
   selector: 'app-weather',
@@ -9,7 +9,7 @@ import { WeatherService } from '../services/weather.service';
 })
 export class WeatherComponent {
   city = '';
-  weather: any;
+  weather: Weather | null = null;
   errorMessage = '';
   isLoading = false;
 
