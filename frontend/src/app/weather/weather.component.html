@@ -1,19 +1,47 @@
 <div class="weather-app">
-  <h1>Weather App</h1>
+  <header class="app-header">
+    <span class="header-icon">🌤️</span>
+    <div>
+      <h1>Météo</h1>
+      <p>Consulte la météo avant de sortir.</p>
+    </div>
+  </header>
+
   <div class="input-group">
-    <input [(ngModel)]="city" placeholder="Enter city">
+    <input [(ngModel)]="city" placeholder="Entre une ville" (keyup.enter)="getWeather()">
     <button (click)="getWeather()" [disabled]="isLoading">
-      {{ isLoading ? 'Loading...' : 'Get Weather' }}
+      {{ isLoading ? 'Chargement...' : 'Voir la météo' }}
     </button>
   </div>
+
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
   <div class="weather-info" *ngIf="weather">
-    <h2>{{ weather.city }}, {{ weather.country }}</h2>
-    <p>{{ weather.description }}</p>
-    <p>{{ weather.temperature }}°C</p>
-    <p>Humidity: {{ weather.humidity }}%</p>
-    <p>Wind speed: {{ weather.windSpeed }} km/h</p>
-    <p>Last update: {{ weather.time | date:'short' }}</p>
+    <section class="current-weather">
+      <div class="weather-icon">{{ getWeatherIcon(weather.description) }}</div>
+      <div>
+        <h2>{{ weather.city }}, {{ weather.country }}</h2>
+        <p class="description">{{ weather.description }}</p>
+      </div>
+      <strong>{{ weather.temperature }}°C</strong>
+    </section>
+
+    <section class="weather-metrics">
+      <article>
+        <span>💧</span>
+        <p>Humidité</p>
+        <strong>{{ weather.humidity }}%</strong>
+      </article>
+      <article>
+        <span>💨</span>
+        <p>Vent</p>
+        <strong>{{ weather.windSpeed }} km/h</strong>
+      </article>
+      <article>
+        <span>🕒</span>
+        <p>Mis à jour</p>
+        <strong>{{ weather.time | date:'shortTime' }}</strong>
+      </article>
+    </section>
   </div>
 </div>
-

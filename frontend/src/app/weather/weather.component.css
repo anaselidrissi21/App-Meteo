@@ -1,16 +1,33 @@
 .weather-app {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 300px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 20px 55px rgba(26, 56, 88, 0.22);
+  max-width: 520px;
   width: 100%;
 }
 
-.weather-app h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+.app-header {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.header-icon {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.app-header h1 {
+  font-size: 30px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.app-header p {
+  color: #4a6075;
+  margin: 6px 0 0;
 }
 
 .input-group {
@@ -20,19 +37,21 @@
 
 .input-group input {
   flex: 1;
-  padding: 10px;
+  min-width: 0;
+  padding: 13px 14px;
   border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
+  border-radius: 6px 0 0 6px;
   outline: none;
 }
 
 .input-group button {
-  padding: 10px;
-  background: #007BFF;
+  padding: 0 16px;
+  background: #1976d2;
   border: none;
   color: white;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 6px 6px 0;
   cursor: pointer;
+  min-width: 116px;
 }
 
 .input-group button:hover {
@@ -51,18 +70,81 @@
 }
 
 .weather-info {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  display: grid;
+  gap: 16px;
 }
 
-.weather-info h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
+.current-weather {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #dce8f2;
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: auto 1fr auto;
+  padding: 18px;
 }
 
-.weather-info p {
-  margin: 5px 0;
+.weather-icon {
+  font-size: 46px;
+  line-height: 1;
+}
+
+.current-weather h2 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.description {
+  color: #4a6075;
+  margin: 6px 0 0;
+}
+
+.current-weather strong {
+  font-size: 28px;
+}
+
+.weather-metrics {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.weather-metrics article {
+  background: #ffffff;
+  border: 1px solid #dce8f2;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.weather-metrics article {
+  min-width: 0;
+}
+
+.weather-metrics span {
+  font-size: 24px;
+}
+
+.weather-metrics p {
+  color: #4a6075;
+  font-size: 13px;
+  margin: 8px 0 4px;
+}
+
+.weather-metrics strong {
+  display: block;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .weather-app {
+    border-radius: 0;
+    min-height: 100vh;
+  }
+
+  .current-weather,
+  .weather-metrics {
+    grid-template-columns: 1fr;
+  }
 }
