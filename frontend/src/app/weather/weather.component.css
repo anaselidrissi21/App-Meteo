@@ -1,14 +1,3 @@
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(to bottom, #87CEEB, #4682B4);
-  font-family: Arial, sans-serif;
-}
-
 .weather-app {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
@@ -66,5 +55,4 @@ body {
 .weather-info p {
   margin: 5px 0;
 }
-
 

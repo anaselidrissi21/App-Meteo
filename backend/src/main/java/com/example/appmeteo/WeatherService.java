@@ -1,19 +1,30 @@
 package com.example.appmeteo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class WeatherService {
-    private final String apiKey = "";
-    private final String apiUrl = "http://api.openweathermap.org/data/2.5/weather";
+    private static final String API_URL = "http://api.openweathermap.org/data/2.5/weather";
+
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String apiKey;
+
+    public WeatherService(@Value("${openweathermap.api-key:}") String apiKey) {
+        this.apiKey = apiKey;
+    }
 
     public String getWeather(String city) {
-        String url = apiUrl + "?q=" + city + "&appid=" + apiKey + "&units=metric";
-        RestTemplate restTemplate = new RestTemplate();
+        String url = UriComponentsBuilder.fromHttpUrl(API_URL)
+                .queryParam("q", city)
+                .queryParam("appid", apiKey)
+                .queryParam("units", "metric")
+                .toUriString();
+
         return restTemplate.getForObject(url, String.class);
     }
 }
-
 
 

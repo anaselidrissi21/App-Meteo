@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { WeatherService } from '../services/weather.service';
 
 @Component({
-selector: 'app-weather',
-templateUrl: './weather.component.html',
-styleUrls: ['./weather.component.css']
+  selector: 'app-weather',
+  templateUrl: './weather.component.html',
+  styleUrls: ['./weather.component.css']
 })
 export class WeatherComponent {
-city: string = '';
-weather: any;
+  city = '';
+  weather: any;
 
-constructor(private weatherService: WeatherService) {}
+  constructor(private weatherService: WeatherService) {}
 
   getWeather() {
     this.weatherService.getWeather(this.city).subscribe(
@@ -23,7 +23,6 @@ constructor(private weatherService: WeatherService) {}
     );
   }
 }
-
 
 
 
